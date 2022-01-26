@@ -6,6 +6,8 @@ This is my hobby project to create an information-dense kitchen countertop dashb
 
 My work was inspired by geekuillaume and Plawasan.
 
+Disclaimer: this is really not a cleaned up version yet. 🙂
+
 ## Device
 
 I used a Lilygo T5 4,7" e-ink display + ESP32 ordered from Aliexpress, PH 2.0 9102 Chip version. The device came in a nice package with a USB cable included. Once installing the proper driver it was ready to use.
@@ -52,3 +54,7 @@ Data sources used behind:
 - [https://www.reddit.com/r/homeassistant/comments/rm71z4/lilygo_t5_epaper_display_now_using_esphome/]
 - [https://www.reddit.com/r/homeassistant/comments/rwwy6r/i_built_a_personal_dashboard_with_a_47_epaper/]
 - [https://pictogrammers.github.io/@mdi/font/5.3.45/]
+
+## License
+
+Feel free to use any code from this repo, in any way you want. (A.k.a: WTFPL)
