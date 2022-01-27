@@ -32,9 +32,9 @@ esphome run dashboard.yaml
 
 ## Custom solutions behind
 
-My dashboard code may not be reusable directly for anyone else, but it might give some ideas, or perhaps a motivation that it is not that difficult to just create something like this from scratch. The layout is fully custom and tailored for my own needs. I tried to produce just a little bit better code than a 5 year old would do, but I'm not that proud of it. Oh boy, I haven't used C++ in ages... 🙂
+My dashboard code may not be reusable directly for anyone else, but it might give some ideas, or perhaps a motivation that it is not that difficult to just create something like this from scratch. The layout is fully custom and tailored for my own needs. I tried to produce just a little bit better code than a 5 year old would do, but I'm not that proud of it (could use a lot of refactoring). Oh boy, I haven't used C++ in ages... 🙂
 
-Date related things and some other stuff are localized in an ugly/custom way, since strftime doesn't do that.
+Date related things and some other stuff are localized in a perhaps ugly way, since strftime can't do that.
 
 Data sources used behind:
 
@@ -44,6 +44,7 @@ Data sources used behind:
 - spotify
 - temperature+humidity sensors
 - custom weather integration (scraping a local provider in HA, that's why everything seems to be a separate sensor)
+- mobile apps for tracking zones
 
 ## Other resources
 
@@ -57,4 +58,4 @@ Data sources used behind:
 
 ## License
 
-Feel free to use any code from this repo, in any way you want. (A.k.a: WTFPL)
+Feel free to use any code from this repo, in any way you want. (WTFPL)

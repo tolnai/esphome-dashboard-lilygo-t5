@@ -1,6 +1,23 @@
 #include <string>
 #include <iostream>
 
+std::string generateDateFormat(esphome::time::ESPTime time, std::string nameday) {
+  std::string months[12] = {"Jan", "Feb", "Már", "Ápr", "Máj", "Jún", "Júl", "Aug", "Sze", "Okt", "Nov", "Dec"};
+  std::string weekdays[7] = {"Vasárnap", "Hétfő", "Kedd", "Szerda", "Csütörtök", "Péntek", "Szombat"};
+  std::string dateFormat = months[atoi(time.strftime("%m").c_str()) - 1] + std::string(" %d, ") + weekdays[atoi(time.strftime("%w").c_str())] + " | " + nameday;
+  return dateFormat;
+}
+
+#define ICON_stop "\U000F04DB"
+#define ICON_play "\U000F040A"
+#define ICON_pause "\U000F03E4"
+
+std::string playbackStatusToIcon(bool playing, bool paused) {
+  if (playing) return ICON_play;
+  else if (paused) return ICON_pause;
+  else return ICON_stop;
+}
+
 #define ICON_w_clear_night "\U000F0594"
 #define ICON_w_cloudy "\U000F0590"
 #define ICON_w_fog "\U000F0591"

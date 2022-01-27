@@ -50,8 +50,6 @@ external_components:
     components:
       - lilygo_t5_47_battery 
       - lilygo_t5_47_display
-  # - source: github://tiaanv/esphome-components
-    # components: ["t547"]
 
 script:
   - id: all_data_received
@@ -59,10 +57,7 @@ script:
       - component.update: t5_display
 
 sensor:
-  - platform: homeassistant
-    entity_id: sensor.openweathermap_forecast_precipitation_probability
-    id: prec_perc
-    internal: true
+  # weather
   - platform: homeassistant
     entity_id: sensor.idokep_temperature
     id: temperature
@@ -103,7 +98,7 @@ sensor:
     entity_id: sensor.idokep_day3_prec
     id: day3_prec
     internal: true
-
+  # temperature/humidity sensors
   - platform: homeassistant
     entity_id: sensor.lumi_lumi_sens_temperature
     id: temp_halo
@@ -148,6 +143,7 @@ binary_sensor:
         - component.update: t5_display
 
 text_sensor:
+  # sun/moon
   - platform: homeassistant
     entity_id: sun.sun
     id: sun
@@ -156,6 +152,7 @@ text_sensor:
     entity_id: sensor.moon
     id: moon
     internal: true
+  # weather
   - platform: homeassistant
     entity_id: sensor.idokep_condition
     id: condition
@@ -187,11 +184,7 @@ text_sensor:
     entity_id: sensor.idokep_day3_condition
     id: day3_condition
     internal: true
-
-  - platform: homeassistant
-    entity_id: sensor.openweathermap_precipitation_kind
-    id: fc_prec
-    internal: true
+  # spotify
   - platform: homeassistant
     entity_id: media_player.spotify_totesz
     id: spotify_playing_status
@@ -209,11 +202,13 @@ text_sensor:
     on_value: # Actions to perform once data for the last sensor has been received
       then:
         - script.execute: all_data_received  
+  # calendar
   - platform: homeassistant
     entity_id: calendar.nevnapok
     attribute: message
     id: nevnap
     internal: true
+  # zone tracking
   - platform: homeassistant
     entity_id: device_tracker.gabor_fon
     id: gabor_location
@@ -254,8 +249,7 @@ font:
     size: 72
     glyphs: |-
       !"%()+=,-_.:°0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz'/&|ÁÉÍÓÖŐÚÜŰáéíóöőúüű
-  
-  # https://pictogrammers.github.io/@mdi/font/5.3.45/
+  # material UI icons - from https://pictogrammers.github.io/@mdi/font/5.3.45/
   - file: 'fonts/materialdesignicons-webfont.ttf'
     id: font_icons
     size: 130
@@ -280,6 +274,7 @@ font:
     id: font_icons_small
     size: 56
     glyphs:
+      # weather
       - "\U000F0594" # clear-night
       - "\U000F0590" # cloudy
       - "\U000F0591" # fog
@@ -296,7 +291,7 @@ font:
       - "\U000F059D" # windy
       - "\U000F059E" # windy-variant
       - "\U000F0F38" # exceptional
-
+      # moon phases
       - "\U000F0F61" # moon-first-quarter
       - "\U000F0F62" # moon-full
       - "\U000F0F63" # moon-last-quarter
@@ -305,7 +300,7 @@ font:
       - "\U000F0F66" # moon-waning-gibbous
       - "\U000F0F67" # moon-waxing-crescent
       - "\U000F0F68" # moon-waxing-gibbous
-
+      # other icons
       - "\U000F10C2" # Temperature High
       - "\U000F10C3" # Temperature Low
       - "\U000F054B" # umbrella
@@ -325,6 +320,7 @@ display:
     rotation: 180
     update_interval: 10s
     lambda: |-
+      // icon constants
       #define ICON_temp_high        "\U000F10C2"
       #define ICON_temp_low         "\U000F10C3"
       #define ICON_umbrella         "\U000F054B"
@@ -332,12 +328,9 @@ display:
       #define ICON_human_male       "\U000F064D"
       #define ICON_human_female     "\U000F0649"
       #define ICON_sofa             "\U000F04B9"
-      #define ICON_stop             "\U000F04DB"
-      #define ICON_play             "\U000F040A"
-      #define ICON_pause            "\U000F03E4"
       #define ICON_man              "\U000F0643"
       #define ICON_woman            "\U000F1078"
-
+      // positioning constants
       #define xRes 960
       #define yRes 540
       #define xCenter (xRes/2 + 40) // X position center
@@ -349,7 +342,8 @@ display:
       #define weatherCol 120
       #define weatherTempCorr 15
 
-      int y = 0; // helper variable
+      // helper variables
+      int y = 0;
 
       // === Date ===
 
@@ -358,10 +352,9 @@ display:
       auto dayTime = id(sun).state == "above_horizon";
       it.strftime(pad, 0, id(font_xlarge_bold), TextAlign::TOP_LEFT, "%H:%M", time);
       // date + nameday
-      std::string months[12] = { "Jan", "Feb", "Már", "Ápr", "Máj", "Jún", "Júl", "Aug", "Sze", "Okt", "Nov", "Dec" };
-      std::string weekdays[7] = { "Vasárnap", "Hétfő", "Kedd", "Szerda", "Csütörtök", "Péntek", "Szombat" };
-      std::string dateFormat = months[atoi(time.strftime("%m").c_str()) - 1] + std::string(" %d, ") + weekdays[atoi(time.strftime("%w").c_str())] +  " | " + id(nevnap).state;
+      std::string dateFormat = generateDateFormat(time, id(nevnap).state);
       it.strftime(xRes - pad - 55, pad, id(font_medium_bold), TextAlign::TOP_RIGHT, dateFormat.c_str(), time);
+      // moon phase
       auto moonIcon = moonToIcon(id(moon).state);
       it.printf(xRes - pad/2, pad, id(font_icons_small), TextAlign::TOP_RIGHT, moonIcon.c_str()); 
 
@@ -370,13 +363,8 @@ display:
       y = 150;
       auto playing = id(spotify_playing_status).state == "playing";
       auto paused = id(spotify_playing_status).state == "paused";
-      if (playing) {
-        it.printf(pad, y, id(font_icons_small), TextAlign::BASELINE_LEFT, ICON_play); 
-      } else if (paused) {
-        it.printf(pad, y, id(font_icons_small), TextAlign::BASELINE_LEFT, ICON_pause); 
-      } else {
-        it.printf(pad, y, id(font_icons_small), TextAlign::BASELINE_LEFT, ICON_stop); 
-      }
+      auto spotifyIcon = playbackStatusToIcon(playing, paused);
+      it.printf(pad, y, id(font_icons_small), TextAlign::BASELINE_LEFT, spotifyIcon.c_str()); 
       if (playing || paused) {
         it.printf(77, y, id(font_big), TextAlign::BASELINE_LEFT, "%.25s", id(spotify_playing_title).state.c_str());
         it.printf(77, y + 46, id(font_medium), TextAlign::BASELINE_LEFT, "%.40s", id(spotify_playing_artist).state.c_str());
@@ -543,10 +531,7 @@ display:
         }
       }
 
-      // === Footer ===
+      // === Footer/debug ===
 
       //it.printf(xRes - pad, yRes - pad/2, id(font_small), TextAlign::BASELINE_RIGHT, "%.2fV/%.0f%%", id(batt_volt).voltage->state, id(batt).state);
-
-      // === DEBUG ===
-
       //it.printf(pad, yRes - pad/2, id(font_small), TextAlign::BASELINE_LEFT, "%s", icon);
