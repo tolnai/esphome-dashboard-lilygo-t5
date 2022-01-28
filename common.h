@@ -80,5 +80,6 @@ std::string moonToIcon(std::string moonPhase)
 
 std::string locationToHungarian(std::string location) {
   if (location == "home") return "Otthon";
+  if (location == "not_home") return "Távol";
   return location;
 }
