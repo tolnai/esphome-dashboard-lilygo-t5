@@ -100,35 +100,35 @@ sensor:
     internal: true
   # temperature/humidity sensors
   - platform: homeassistant
-    entity_id: sensor.lumi_lumi_sens_temperature
+    entity_id: sensor.bedroom_sensor_temperature
     id: temp_halo
     internal: true
   - platform: homeassistant
-    entity_id: sensor.lumi_lumi_sens_humidity
+    entity_id: sensor.bedroom_sensor_humidity
     id: humidity_halo
     internal: true
   - platform: homeassistant
-    entity_id: sensor.lumi_lumi_sens_6d005c04_temperature
+    entity_id: sensor.living_room_sensor_temperature
     id: temp_nappali
     internal: true
   - platform: homeassistant
-    entity_id: sensor.lumi_lumi_sens_6d005c04_humidity
+    entity_id: sensor.living_room_sensor_humidity
     id: humidity_nappali
     internal: true
   - platform: homeassistant
-    entity_id: sensor.lumi_lumi_sens_7f0c8804_temperature
+    entity_id: sensor.matthew_sensor_temperature
     id: temp_mate
     internal: true
   - platform: homeassistant
-    entity_id: sensor.lumi_lumi_sens_7f0c8804_humidity
+    entity_id: sensor.matthew_sensor_humidity
     id: humidity_mate
     internal: true
   - platform: homeassistant
-    entity_id: sensor.lumi_lumi_sens_580d8804_temperature
+    entity_id: sensor.lucy_sensor_temperature
     id: temp_luca
     internal: true
   - platform: homeassistant
-    entity_id: sensor.lumi_lumi_sens_580d8804_humidity
+    entity_id: sensor.lucy_sensor_humidity
     id: humidity_luca
     internal: true
 
