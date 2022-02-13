@@ -141,6 +141,14 @@ binary_sensor:
     on_press:
       then:
         - component.update: t5_display
+  - platform: homeassistant
+    entity_id: binary_sensor.idokep_temp_falling
+    id: temp_falling
+    internal: true
+  - platform: homeassistant
+    entity_id: binary_sensor.idokep_temp_rising
+    id: temp_rising
+    internal: true
 
 text_sensor:
   # sun/moon
@@ -313,6 +321,12 @@ font:
       - "\U000F03E4" # pause
       - "\U000F0643" # man
       - "\U000F1078" # woman
+  - file: 'fonts/materialdesignicons-webfont.ttf'
+    id: font_icons_tiny
+    size: 32
+    glyphs:
+      - "\U000F005E" # arrow-up-thick
+      - "\U000F0046" # arrow-down-thick
 
 display:
   - platform: lilygo_t5_47_display
@@ -330,6 +344,8 @@ display:
       #define ICON_sofa             "\U000F04B9"
       #define ICON_man              "\U000F0643"
       #define ICON_woman            "\U000F1078"
+      #define ICON_up               "\U000F005E"
+      #define ICON_down             "\U000F0046"
       // positioning constants
       #define xRes 960
       #define yRes 540
@@ -379,6 +395,12 @@ display:
       if (!isnan(id(temperature).state)) {
         it.printf(xRes - 210, y, id(font_xlarge_bold), TextAlign::CENTER_RIGHT, "%.0f", id(temperature).state);
         it.printf(xRes - 210, y - celsiusSuperscript, id(font_large), TextAlign::CENTER_LEFT, "°C");
+        if (id(temp_rising).state) {
+          it.printf(xRes - 210, y + 3, id(font_icons_tiny), TextAlign::TOP_LEFT, ICON_up);
+        }
+        else if (id(temp_falling).state) {
+          it.printf(xRes - 210, y + 3, id(font_icons_tiny), TextAlign::TOP_LEFT, ICON_down);
+        }
       }
       // current condition icon
       auto conditionIcon = conditionToIcon(id(condition).state, dayTime);
