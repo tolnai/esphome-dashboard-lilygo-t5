@@ -43,9 +43,22 @@ time:
     id: ntp
 
 external_components:
+  # - source: github://ashald/esphome@lilygo-t5-47
+  #   components:
+  #     - lilygo_t5_47
+  # - source:
+  #     type: git
+  #     url: https://github.com/vbaksa/esphome
+  #     ref: dev
+  #   components:
+  #     - lilygo_t5_47_battery 
+  #     - lilygo_t5_47_display
+  # - source: github://tiaanv/esphome-components
+  #   components:
+  #     - t547
   - source:
       type: git
-      url: https://github.com/vbaksa/esphome
+      url: https://github.com/kaweksl/esphome
       ref: dev
     components:
       - lilygo_t5_47_battery 
@@ -330,8 +343,11 @@ font:
 
 display:
   - platform: lilygo_t5_47_display
+    full_update_every: 60 # optional (default:  1): 0 - never, 1 (default) - every, 2+ - throttled
+    #cycles_render: 20    # optional (default: 20): higher number -> less ghosting, crisper image, more time
+    #cycles_invert: 20    # optional (default: 20): higher number -> more timef or full update, but mor burn-in protection
     id: t5_display
-    rotation: 180
+    rotation: 0
     update_interval: 10s
     lambda: |-
       // icon constants
