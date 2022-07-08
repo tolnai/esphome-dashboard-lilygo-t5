@@ -38,9 +38,18 @@ web_server:
   port: 80
   include_internal: true 
 
+sun:
+  latitude: 47.498406°
+  longitude: 19.040758°
+
 time:
   - platform: homeassistant
     id: ntp
+    timezone: Europe/Budapest
+    on_time_sync:
+      - then:
+        - component.update: sunrise
+        - component.update: sunset
 
 external_components:
   # - source: github://ashald/esphome@lilygo-t5-47
@@ -165,9 +174,21 @@ binary_sensor:
 
 text_sensor:
   # sun/moon
+  - platform: sun
+    id: sunrise
+    name: Sun Next Sunrise
+    type: sunrise
+    format: "%H:%M"
+    internal: true
+  - platform: sun
+    id: sunset
+    name: Sun Next Sunset
+    type: sunset
+    format: "%H:%M"    
+    internal: true
   - platform: homeassistant
     entity_id: sun.sun
-    id: sun
+    id: hasun
     internal: true
   - platform: homeassistant
     entity_id: sensor.moon
@@ -340,6 +361,8 @@ font:
     glyphs:
       - "\U000F005E" # arrow-up-thick
       - "\U000F0046" # arrow-down-thick
+      - "\U000F059C" # Sunrise
+      - "\U000F059B" # Sunset
 
 display:
   - platform: lilygo_t5_47_display
@@ -362,6 +385,8 @@ display:
       #define ICON_woman            "\U000F1078"
       #define ICON_up               "\U000F005E"
       #define ICON_down             "\U000F0046"
+      #define ICON_sunrise          "\U000F059C"
+      #define ICON_sunset           "\U000F059B"
       // positioning constants
       #define xRes 960
       #define yRes 540
@@ -381,7 +406,7 @@ display:
 
       // time
       auto time = id(ntp).now();
-      auto dayTime = id(sun).state == "above_horizon";
+      auto dayTime = id(hasun).state == "above_horizon";
       it.strftime(pad, 0, id(font_xlarge_bold), TextAlign::TOP_LEFT, "%H:%M", time);
       // date + nameday
       std::string dateFormat = generateDateFormat(time, id(nevnap).state);
@@ -421,6 +446,11 @@ display:
       // current condition icon
       auto conditionIcon = conditionToIcon(id(condition).state, dayTime);
       it.printf(xRes - pad, y, id(font_icons), TextAlign::CENTER_RIGHT, conditionIcon.c_str());
+      y = 200;
+      it.printf(xCenter + weatherCol, y, id(font_icons_tiny), TextAlign::BASELINE_RIGHT, ICON_sunrise);
+      it.printf(xCenter + weatherCol, y, id(font_small), TextAlign::BASELINE_LEFT, "%s", id(sunrise).state.c_str());      
+      it.printf(xCenter + weatherCol*2, y, id(font_icons_tiny), TextAlign::BASELINE_RIGHT, ICON_sunset);
+      it.printf(xCenter + weatherCol*2, y, id(font_small), TextAlign::BASELINE_LEFT, "%s", id(sunset).state.c_str());  
 
       // === LEFT - room info ===
       
