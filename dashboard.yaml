@@ -256,8 +256,16 @@ text_sensor:
     id: gabor_location
     internal: true
   - platform: homeassistant
+    entity_id: sensor.gabor_distance
+    id: gabor_distance
+    internal: true
+  - platform: homeassistant
     entity_id: device_tracker.verus_fon_3
     id: verus_location
+    internal: true
+  - platform: homeassistant
+    entity_id: sensor.verus_distance
+    id: verus_distance
     internal: true
 
 font:
@@ -507,12 +515,12 @@ display:
       y = 290;
       it.printf(centerCol, y + rowHeight/4, id(font_icons_small), TextAlign::BASELINE_CENTER, ICON_man);
       y += rowHeight; // 350
-      auto gaborLocationText = locationToHungarian(id(gabor_location).state);
+      auto gaborLocationText = locationToHungarian(id(gabor_location).state, id(gabor_distance).state);
       it.printf(centerCol, y - rowHeight/4, id(font_medium), TextAlign::BASELINE_CENTER, "%s", gaborLocationText.c_str());
       y += rowHeight; // 425
       it.printf(centerCol, y + rowHeight/4, id(font_icons_small), TextAlign::BASELINE_CENTER, ICON_woman);
       y += rowHeight; // 500
-      auto verusLocationText = locationToHungarian(id(verus_location).state);
+      auto verusLocationText = locationToHungarian(id(verus_location).state, id(verus_distance).state);
       it.printf(centerCol, y - rowHeight/4, id(font_medium), TextAlign::BASELINE_CENTER, "%s", verusLocationText.c_str());
 
       it.line(xCenter - 10, 220, xCenter - 10, yRes);
