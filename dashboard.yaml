@@ -122,11 +122,11 @@ sensor:
     internal: true
   # temperature/humidity sensors
   - platform: homeassistant
-    entity_id: sensor.bedroom_sensor_temperature
+    entity_id: sensor.halo_hmer_temperature
     id: temp_halo
     internal: true
   - platform: homeassistant
-    entity_id: sensor.bedroom_sensor_humidity
+    entity_id: sensor.halo_hmer_humidity
     id: humidity_halo
     internal: true
   - platform: homeassistant
@@ -136,6 +136,14 @@ sensor:
   - platform: homeassistant
     entity_id: sensor.living_room_sensor_humidity
     id: humidity_nappali
+    internal: true
+  - platform: homeassistant
+    entity_id: sensor.bedroom_sensor_temperature
+    id: temp_dani
+    internal: true
+  - platform: homeassistant
+    entity_id: sensor.bedroom_sensor_humidity
+    id: humidity_dani
     internal: true
   - platform: homeassistant
     entity_id: sensor.matthew_sensor_temperature
@@ -363,6 +371,7 @@ font:
       - "\U000F03E4" # pause
       - "\U000F0643" # man
       - "\U000F1078" # woman
+      - "\U000F0E7C" # baby-face
   - file: 'fonts/materialdesignicons-webfont.ttf'
     id: font_icons_tiny
     size: 32
@@ -374,12 +383,12 @@ font:
 
 display:
   - platform: lilygo_t5_47_display
-    full_update_every: 60 # optional (default:  1): 0 - never, 1 (default) - every, 2+ - throttled
+    full_update_every: 2 # optional (default:  1): 0 - never, 1 (default) - every, 2+ - throttled
     #cycles_render: 20    # optional (default: 20): higher number -> less ghosting, crisper image, more time
     #cycles_invert: 20    # optional (default: 20): higher number -> more timef or full update, but mor burn-in protection
     id: t5_display
     rotation: 0
-    update_interval: 10s
+    update_interval: 60s
     lambda: |-
       // icon constants
       #define ICON_temp_high        "\U000F10C2"
@@ -391,6 +400,7 @@ display:
       #define ICON_sofa             "\U000F04B9"
       #define ICON_man              "\U000F0643"
       #define ICON_woman            "\U000F1078"
+      #define ICON_baby             "\U000F0E7C"
       #define ICON_up               "\U000F005E"
       #define ICON_down             "\U000F0046"
       #define ICON_sunrise          "\U000F059C"
@@ -425,6 +435,7 @@ display:
 
       // === LEFT - Spotify ===
 
+      /*
       y = 150;
       auto playing = id(spotify_playing_status).state == "playing";
       auto paused = id(spotify_playing_status).state == "paused";
@@ -436,6 +447,7 @@ display:
       } else {
         it.printf(77, y - 5, id(font_big), TextAlign::BASELINE_LEFT, "-");
       }
+      */
 
       // === RIGHT - Weather ===
 
@@ -463,7 +475,7 @@ display:
       // === LEFT - room info ===
       
       // Living room / Nappali
-      y = 290;
+      y = 215;
       it.printf(pad, y, id(font_icons_small), TextAlign::BASELINE_LEFT, ICON_sofa); 
       if (!isnan(id(temp_nappali).state)) {
         it.printf(temperatureCol, y, id(font_large), TextAlign::BASELINE_RIGHT, "%.1f", id(temp_nappali).state);
@@ -474,7 +486,7 @@ display:
         it.printf(humidityCol, y, id(font_small), TextAlign::BASELINE_LEFT, "%%");
       }
       // Bedroom / Háló
-      y += rowHeight; // 350
+      y += rowHeight; // 290
       it.printf(pad, y, id(font_icons_small), TextAlign::BASELINE_LEFT, ICON_bed); 
       if (!isnan(id(temp_halo).state)) {
         it.printf(temperatureCol, y, id(font_large), TextAlign::BASELINE_RIGHT, "%.1f", id(temp_halo).state);
@@ -482,6 +494,17 @@ display:
       }
       if (!isnan(id(humidity_halo).state)) {
         it.printf(humidityCol, y, id(font_medium), TextAlign::BASELINE_RIGHT, "%.0f", id(humidity_halo).state);
+        it.printf(humidityCol, y, id(font_small), TextAlign::BASELINE_LEFT, "%%");
+      }
+      // Kid 3 / Dani
+      y += rowHeight; // 350
+      it.printf(pad, y, id(font_icons_small), TextAlign::BASELINE_LEFT, ICON_baby); 
+      if (!isnan(id(temp_dani).state)) {
+        it.printf(temperatureCol, y, id(font_large), TextAlign::BASELINE_RIGHT, "%.1f", id(temp_dani).state);
+        it.printf(temperatureCol, y - celsiusSuperscript, id(font_medium), TextAlign::BASELINE_LEFT, "°C");
+      }
+      if (!isnan(id(humidity_dani).state)) {
+        it.printf(humidityCol, y, id(font_medium), TextAlign::BASELINE_RIGHT, "%.0f", id(humidity_dani).state);
         it.printf(humidityCol, y, id(font_small), TextAlign::BASELINE_LEFT, "%%");
       }
       // Kid 1 / Máté
