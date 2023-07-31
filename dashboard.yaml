@@ -85,39 +85,48 @@ sensor:
     id: temperature
     internal: true
   - platform: homeassistant
-    entity_id: sensor.idokep_day1_min
+    entity_id: sensor.idokep_daily_data
+    attribute: day1_min
     id: day1_min
     internal: true
   - platform: homeassistant
-    entity_id: sensor.idokep_day1_max
+    entity_id: sensor.idokep_daily_data
+    attribute: day1_max
     id: day1_max
     internal: true
   - platform: homeassistant
-    entity_id: sensor.idokep_day1_prec
+    entity_id: sensor.idokep_daily_data
+    attribute: day1_prec
     id: day1_prec
     internal: true
   - platform: homeassistant
-    entity_id: sensor.idokep_day2_min
+    entity_id: sensor.idokep_daily_data
+    attribute: day2_min
     id: day2_min
     internal: true
   - platform: homeassistant
-    entity_id: sensor.idokep_day2_max
+    entity_id: sensor.idokep_daily_data
+    attribute: day2_max
     id: day2_max
     internal: true
   - platform: homeassistant
-    entity_id: sensor.idokep_day2_prec
+    entity_id: sensor.idokep_daily_data
+    attribute: day2_prec
     id: day2_prec
     internal: true
   - platform: homeassistant
-    entity_id: sensor.idokep_day3_min
+    entity_id: sensor.idokep_daily_data
+    attribute: day3_min
     id: day3_min
     internal: true
   - platform: homeassistant
-    entity_id: sensor.idokep_day3_max
+    entity_id: sensor.idokep_daily_data
+    attribute: day3_max
     id: day3_max
     internal: true
   - platform: homeassistant
-    entity_id: sensor.idokep_day3_prec
+    entity_id: sensor.idokep_daily_data
+    attribute: day3_prec
     id: day3_prec
     internal: true
   # temperature/humidity sensors
@@ -211,47 +220,53 @@ text_sensor:
       then:
         - script.execute: all_data_received
   - platform: homeassistant
-    entity_id: sensor.idokep_day1_dow
+    entity_id: sensor.idokep_daily_data
+    attribute: day1_dow
     id: day1_dow
     internal: true
   - platform: homeassistant
-    entity_id: sensor.idokep_day1_condition
+    entity_id: sensor.idokep_daily_data
+    attribute: day1_condition
     id: day1_condition
     internal: true
   - platform: homeassistant
-    entity_id: sensor.idokep_day2_dow
+    entity_id: sensor.idokep_daily_data
+    attribute: day2_dow
     id: day2_dow
     internal: true
   - platform: homeassistant
-    entity_id: sensor.idokep_day2_condition
+    entity_id: sensor.idokep_daily_data
+    attribute: day2_condition
     id: day2_condition
     internal: true
   - platform: homeassistant
-    entity_id: sensor.idokep_day3_dow
+    entity_id: sensor.idokep_daily_data
+    attribute: day3_dow
     id: day3_dow
     internal: true
   - platform: homeassistant
-    entity_id: sensor.idokep_day3_condition
+    entity_id: sensor.idokep_daily_data
+    attribute: day3_condition
     id: day3_condition
     internal: true
   # spotify
-  - platform: homeassistant
-    entity_id: media_player.spotify_totesz
-    id: spotify_playing_status
-    internal: true
-  - platform: homeassistant
-    entity_id: media_player.spotify_totesz
-    attribute: media_title
-    id: spotify_playing_title
-    internal: true
-  - platform: homeassistant
-    entity_id: media_player.spotify_totesz
-    attribute: media_artist
-    id: spotify_playing_artist
-    internal: true
-    on_value: # Actions to perform once data for the last sensor has been received
-      then:
-        - script.execute: all_data_received  
+  # - platform: homeassistant
+  #   entity_id: media_player.spotify_totesz
+  #   id: spotify_playing_status
+  #   internal: true
+  # - platform: homeassistant
+  #   entity_id: media_player.spotify_totesz
+  #   attribute: media_title
+  #   id: spotify_playing_title
+  #   internal: true
+  # - platform: homeassistant
+  #   entity_id: media_player.spotify_totesz
+  #   attribute: media_artist
+  #   id: spotify_playing_artist
+  #   internal: true
+  #   on_value: # Actions to perform once data for the last sensor has been received
+  #     then:
+  #       - script.execute: all_data_received  
   # calendar
   - platform: homeassistant
     entity_id: calendar.nevnapok

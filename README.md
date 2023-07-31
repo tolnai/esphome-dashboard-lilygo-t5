@@ -1,8 +1,8 @@
-*Note:* The "időkép" scraper module has been moved to a separate repo: <https://github.com/tolnai/home_assistant_idokep_scraper>
-
-*Megjegyzés:* Az "időkép" scraper modul külön repóba költözött: <https://github.com/tolnai/home_assistant_idokep_scraper>
-
 # ESPHome based dashboard using Lilygo T5 4,7" e-ink display + ESP32
+
+⚠️ *Note:* The "időkép" scraper module has been moved to a separate repo: <https://github.com/tolnai/home_assistant_idokep_scraper>
+
+⚠️ *Megjegyzés:* Az "időkép" scraper modul külön repóba költözött: <https://github.com/tolnai/home_assistant_idokep_scraper>
 
 ![Sample](/sample.png)
 
