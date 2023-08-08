@@ -96,7 +96,7 @@ sensor:
     internal: true
   - platform: homeassistant
     entity_id: sensor.idokep_daily_data
-    attribute: day1_prec
+    attribute: day1_prec_mm
     id: day1_prec
     internal: true
   - platform: homeassistant
@@ -111,7 +111,7 @@ sensor:
     internal: true
   - platform: homeassistant
     entity_id: sensor.idokep_daily_data
-    attribute: day2_prec
+    attribute: day2_prec_mm
     id: day2_prec
     internal: true
   - platform: homeassistant
@@ -126,7 +126,7 @@ sensor:
     internal: true
   - platform: homeassistant
     entity_id: sensor.idokep_daily_data
-    attribute: day3_prec
+    attribute: day3_prec_mm
     id: day3_prec
     internal: true
   # temperature/humidity sensors
