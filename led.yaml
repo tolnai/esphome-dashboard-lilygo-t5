@@ -1,0 +1,160 @@
+substitutions:
+  esp_name: ESP LED Indicators
+  esp_hostname: esp-led-indicators
+  ip_address: 192.168.0.236
+  ip_gw: 192.168.0.1
+  ip_netmask: 255.255.255.0
+
+esphome:
+  name: led-indicators
+
+esp8266:
+  #board: nodemcuv2
+  board: d1_mini
+  framework:
+    version: recommended
+
+wifi:
+  ssid: Cruiser
+  password: !secret wifi_password
+  manual_ip:
+    static_ip: ${ip_address}
+    gateway: ${ip_gw}
+    subnet: ${ip_netmask}
+  ap:
+    ssid: "${esp_name} Hotspot"
+    password: !secret wifi_password
+
+logger:
+
+ota:
+
+api:
+
+light:
+  - platform: neopixelbus
+    type: grb
+    pin: D4
+    num_leds: 7
+    name: "NeoPixel Light"
+    id: led_notifier
+    variant: WS2812
+    method: ESP8266_UART1
+    effects:
+      - strobe:
+          name: Strobe Effect With Custom Values
+          colors:
+            - state: True
+              brightness: 100%
+              red: 100%
+              green: 90%
+              blue: 0%
+              duration: 500ms
+            - state: False
+              duration: 250ms
+            - state: True
+              brightness: 100%
+              red: 0%
+              green: 100%
+              blue: 0%
+              duration: 500ms
+      - flicker:
+          name: Flicker Effect With Custom Values
+          alpha: 95%
+          intensity: 1.5%
+      - addressable_rainbow:
+          name: Rainbow Effect With Custom Values
+          speed: 10
+          width: 50       
+      - addressable_color_wipe:
+          name: Color Wipe Effect With Custom Values
+          colors:
+            - red: 100%
+              green: 100%
+              blue: 100%
+              num_leds: 1
+            - red: 0%
+              green: 0%
+              blue: 0%
+              num_leds: 1
+          add_led_interval: 100ms
+          reverse: False
+      - addressable_scan:
+          name: Scan Effect With Custom Values
+          move_interval: 100ms
+      - addressable_twinkle:
+          name: Twinkle Effect With Custom Values
+          twinkle_probability: 5%
+          progress_interval: 4ms
+      - addressable_fireworks:
+          name: Fireworks Effect With Custom Values
+          update_interval: 32ms
+          spark_probability: 10%
+          use_random_color: false
+          fade_out_rate: 120    
+      - addressable_flicker:
+          name: Flicker Effect With Custom Values 2
+          update_interval: 16ms
+          intensity: 5%
+  - platform: partition
+    name: "Notification Light #1"
+    id: led_notification1
+    segments:
+      - id: led_notifier
+        from: 0
+        to: 0
+    effects:
+      - pulse:
+  - platform: partition
+    name: "Notification Light #2"
+    id: led_notification2
+    segments:
+      - id: led_notifier
+        from: 1
+        to: 1
+  - platform: partition
+    name: "Notification Light #3"
+    id: led_notification3
+    segments:
+      - id: led_notifier
+        from: 2
+        to: 2
+  - platform: partition
+    name: "Notification Light #4"
+    id: led_notification4
+    segments:
+      - id: led_notifier
+        from: 3
+        to: 3
+  - platform: partition
+    name: "Notification Light #5"
+    id: led_notification5
+    segments:
+      - id: led_notifier
+        from: 4
+        to: 4
+  - platform: partition
+    name: "Notification Light #6"
+    id: led_notification6
+    segments:
+      - id: led_notifier
+        from: 5
+        to: 5
+  - platform: partition
+    name: "Notification Light #7"
+    id: led_notification7
+    segments:
+      - id: led_notifier
+        from: 6
+        to: 6
+
+# light:
+#   - platform: neopixelbus
+#     type: GRB
+#     variant: WS2812X
+#     method: esp32_i2s
+#     pin: D4
+#     num_leds: 7
+#     name: "LED Notifier"
+#     id: led_notifier
+
