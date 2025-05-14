@@ -1,7 +1,7 @@
 #include <string>
 #include <iostream>
 
-std::string generateDateFormat(esphome::time::ESPTime time, std::string nameday) {
+std::string generateDateFormat(esphome::ESPTime time, std::string nameday) {
   std::string months[12] = {"Jan", "Feb", "Már", "Ápr", "Máj", "Jún", "Júl", "Aug", "Sze", "Okt", "Nov", "Dec"};
   std::string weekdays[7] = {"Vasárnap", "Hétfő", "Kedd", "Szerda", "Csütörtök", "Péntek", "Szombat"};
   std::string dateFormat = months[atoi(time.strftime("%m").c_str()) - 1] + std::string(" %d, ") + weekdays[atoi(time.strftime("%w").c_str())] + " | " + nameday;

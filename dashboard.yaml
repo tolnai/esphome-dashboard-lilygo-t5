@@ -22,6 +22,7 @@ api:
 
 ota:
   password: ""
+  platform: esphome
 
 wifi:
   ssid: "Cruiser"
@@ -60,18 +61,20 @@ external_components:
   #     url: https://github.com/vbaksa/esphome
   #     ref: dev
   #   components:
-  #     - lilygo_t5_47_battery 
+  #     - lilygo_t5_47_battery
   #     - lilygo_t5_47_display
-  # - source: github://tiaanv/esphome-components
-  #   components:
-  #     - t547
-  - source:
-      type: git
-      url: https://github.com/kaweksl/esphome
-      ref: dev
+  - source: github://tiaanv/esphome-components
     components:
-      - lilygo_t5_47_battery 
-      - lilygo_t5_47_display
+      - t547
+  #- source: github://nickolay/esphome-lilygo-t547plus
+  #  components: ['t547']
+  # - source:
+  #     type: git
+  #     url: https://github.com/kaweksl/esphome
+  #     ref: dev
+  #   components:
+  #     - lilygo_t5_47_battery
+  #     - lilygo_t5_47_display
 
 script:
   - id: all_data_received
@@ -397,13 +400,14 @@ font:
       - "\U000F059B" # Sunset
 
 display:
-  - platform: lilygo_t5_47_display
-    full_update_every: 2 # optional (default:  1): 0 - never, 1 (default) - every, 2+ - throttled
+  - id: t5_display
+    #platform: lilygo_t5_47_display
+    platform: t547
+    #full_update_every: 2 # optional (default:  1): 0 - never, 1 (default) - every, 2+ - throttled
     #cycles_render: 20    # optional (default: 20): higher number -> less ghosting, crisper image, more time
     #cycles_invert: 20    # optional (default: 20): higher number -> more timef or full update, but mor burn-in protection
-    id: t5_display
     rotation: 0
-    update_interval: 60s
+    update_interval: 300s
     lambda: |-
       // icon constants
       #define ICON_temp_high        "\U000F10C2"
@@ -435,10 +439,14 @@ display:
       // helper variables
       int y = 0;
 
+      auto time = id(ntp).now();
+      if (time.hour < 6 && time.hour > 2) {
+        return;
+      }
+
       // === Date ===
 
       // time
-      auto time = id(ntp).now();
       auto dayTime = id(hasun).state == "above_horizon";
       it.strftime(pad, 0, id(font_xlarge_bold), TextAlign::TOP_LEFT, "%H:%M", time);
       // date + nameday

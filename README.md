@@ -29,7 +29,6 @@ Steps I needed to get this project up and running on Windows:
 
 ```bash
 pip3 install esphome
-pip3 install pillow
 esphome wizard dashboard.yaml
 esphome run dashboard.yaml
 ```
