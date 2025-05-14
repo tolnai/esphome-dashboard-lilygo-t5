@@ -1,6 +1,6 @@
 substitutions:
   esp_name: ESP Dashboard
-  esp_hostname: esp-dashboard 
+  esp_hostname: esp-dashboard
   ip_address: 192.168.0.234
   ip_gw: 192.168.0.1
   ip_netmask: 255.255.255.0
@@ -18,26 +18,26 @@ esp32:
 logger:
 
 api:
-  password: ""
+  password: ''
 
 ota:
-  password: ""
   platform: esphome
+  password: ''
 
 wifi:
-  ssid: "Cruiser"
+  ssid: 'Cruiser'
   password: !secret wifi_password
   manual_ip:
     static_ip: ${ip_address}
     gateway: ${ip_gw}
     subnet: ${ip_netmask}
   ap:
-    ssid: "${esp_name} Fallback Hotspot"
+    ssid: '${esp_name} Fallback Hotspot'
     password: !secret wifi_password
 
 web_server:
   port: 80
-  include_internal: true 
+  include_internal: true
 
 sun:
   latitude: 47.498406°
@@ -49,8 +49,8 @@ time:
     timezone: Europe/Budapest
     on_time_sync:
       - then:
-        - component.update: sunrise
-        - component.update: sunset
+          - component.update: sunrise
+          - component.update: sunset
 
 external_components:
   # - source: github://ashald/esphome@lilygo-t5-47
@@ -150,6 +150,14 @@ sensor:
     id: humidity_nappali
     internal: true
   - platform: homeassistant
+    entity_id: sensor.office_sensor_temperature
+    id: temp_iroda
+    internal: true
+  - platform: homeassistant
+    entity_id: sensor.office_sensor_humidity
+    id: humidity_iroda
+    internal: true
+  - platform: homeassistant
     entity_id: sensor.bedroom_sensor_temperature
     id: temp_dani
     internal: true
@@ -176,10 +184,10 @@ sensor:
 
 binary_sensor:
   - platform: gpio
-    pin: 
+    pin:
       number: GPIO39
       inverted: true
-    name: "lilygo-t5 Button 1"
+    name: 'lilygo-t5 Button 1'
     on_press:
       then:
         - component.update: t5_display
@@ -198,13 +206,13 @@ text_sensor:
     id: sunrise
     name: Sun Next Sunrise
     type: sunrise
-    format: "%H:%M"
+    format: '%H:%M'
     internal: true
   - platform: sun
     id: sunset
     name: Sun Next Sunset
     type: sunset
-    format: "%H:%M"    
+    format: '%H:%M'
     internal: true
   - platform: homeassistant
     entity_id: sun.sun
@@ -269,7 +277,7 @@ text_sensor:
   #   internal: true
   #   on_value: # Actions to perform once data for the last sensor has been received
   #     then:
-  #       - script.execute: all_data_received  
+  #       - script.execute: all_data_received
   # calendar
   - platform: homeassistant
     entity_id: calendar.nevnapok
@@ -295,32 +303,42 @@ text_sensor:
     internal: true
 
 font:
-  - file: "fonts/OpenSans-Medium.ttf"
+  - file: 'fonts/OpenSans-Medium.ttf'
     id: font_small
-    size: 28    
+    size: 28
     glyphs: |-
       !"%()+=,-_.:°0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz'/&|ÁÉÍÓÖŐÚÜŰáéíóöőúüű
-  - file: "fonts/OpenSans-Medium.ttf"
+  - file: 'fonts/OpenSans-Medium.ttf'
     id: font_medium
     size: 38
     glyphs: |-
       !"%()+=,-_.:°0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz'/&|ÁÉÍÓÖŐÚÜŰáéíóöőúüű
-  - file: "fonts/OpenSans-Bold.ttf"
+  - file: 'fonts/OpenSans-Bold.ttf'
     id: font_medium_bold
     size: 38
     glyphs: |-
       !"%()+=,-_.:°0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz'/&|ÁÉÍÓÖŐÚÜŰáéíóöőúüű
-  - file: "fonts/OpenSans-Medium.ttf"
+  - file: 'fonts/OpenSans-Medium.ttf'
     id: font_big
     size: 48
     glyphs: |-
       !"%()+=,-_.:°0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz'/&|ÁÉÍÓÖŐÚÜŰáéíóöőúüű
-  - file: "fonts/OpenSans-Medium.ttf"
+  - file: 'fonts/OpenSans-Bold.ttf'
+    id: font_big_bold
+    size: 48
+    glyphs: |-
+      !"%()+=,-_.:°0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz'/&|ÁÉÍÓÖŐÚÜŰáéíóöőúüű
+  - file: 'fonts/OpenSans-Medium.ttf'
     id: font_large
     size: 56
     glyphs: |-
       !"%()+=,-_.:°0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz'/&|ÁÉÍÓÖŐÚÜŰáéíóöőúüű
-  - file: "fonts/OpenSans-Bold.ttf"
+  - file: 'fonts/OpenSans-Bold.ttf'
+    id: font_large_bold
+    size: 56
+    glyphs: |-
+      !"%()+=,-_.:°0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz'/&|ÁÉÍÓÖŐÚÜŰáéíóöőúüű
+  - file: 'fonts/OpenSans-Bold.ttf'
     id: font_xlarge_bold
     size: 72
     glyphs: |-
@@ -390,6 +408,7 @@ font:
       - "\U000F0643" # man
       - "\U000F1078" # woman
       - "\U000F0E7C" # baby-face
+      - "\U000F0379" # monitor
   - file: 'fonts/materialdesignicons-webfont.ttf'
     id: font_icons_tiny
     size: 32
@@ -416,6 +435,7 @@ display:
       #define ICON_bed              "\U000F02E3"
       #define ICON_human_male       "\U000F064D"
       #define ICON_human_female     "\U000F0649"
+      #define ICON_monitor          "\U000F0379"
       #define ICON_sofa             "\U000F04B9"
       #define ICON_man              "\U000F0643"
       #define ICON_woman            "\U000F1078"
@@ -446,12 +466,12 @@ display:
 
       // === Date ===
 
-      // time
-      auto dayTime = id(hasun).state == "above_horizon";
-      it.strftime(pad, 0, id(font_xlarge_bold), TextAlign::TOP_LEFT, "%H:%M", time);
       // date + nameday
+      auto dayTime = id(hasun).state == "above_horizon";
       std::string dateFormat = generateDateFormat(time, id(nevnap).state);
-      it.strftime(xRes - pad - 55, pad, id(font_medium_bold), TextAlign::TOP_RIGHT, dateFormat.c_str(), time);
+      it.strftime(pad, 0, id(font_big_bold), TextAlign::TOP_LEFT, dateFormat.c_str(), time);
+      // time
+      it.strftime(xRes - pad - 55, 0, id(font_big_bold), TextAlign::TOP_RIGHT, "%H:%M", time);
       // moon phase
       auto moonIcon = moonToIcon(id(moon).state);
       it.printf(xRes - pad/2, pad, id(font_icons_small), TextAlign::TOP_RIGHT, moonIcon.c_str()); 
@@ -473,6 +493,8 @@ display:
       */
 
       // === RIGHT - Weather ===
+
+      it.line(xCenter - 10, 75, xRes, 75);
 
       y = 135;
       // current temperature
@@ -496,9 +518,11 @@ display:
       it.printf(xCenter + weatherCol*2, y, id(font_small), TextAlign::BASELINE_LEFT, "%s", id(sunset).state.c_str());  
 
       // === LEFT - room info ===
-      
+
+      it.line(0, 75, humidityCol + 40, 75);
+
       // Living room / Nappali
-      y = 215;
+      y = 140; // old: 215
       it.printf(pad, y, id(font_icons_small), TextAlign::BASELINE_LEFT, ICON_sofa); 
       if (!isnan(id(temp_nappali).state)) {
         it.printf(temperatureCol, y, id(font_large), TextAlign::BASELINE_RIGHT, "%.1f", id(temp_nappali).state);
@@ -506,6 +530,17 @@ display:
       }
       if (!isnan(id(humidity_nappali).state)) {
         it.printf(humidityCol, y, id(font_medium), TextAlign::BASELINE_RIGHT, "%.0f", id(humidity_nappali).state);
+        it.printf(humidityCol, y, id(font_small), TextAlign::BASELINE_LEFT, "%%");
+      }
+      // Office / Iroda
+      y += rowHeight; // 290
+      it.printf(pad, y, id(font_icons_small), TextAlign::BASELINE_LEFT, ICON_monitor);
+      if (!isnan(id(temp_iroda).state)) {
+        it.printf(temperatureCol, y, id(font_large), TextAlign::BASELINE_RIGHT, "%.1f", id(temp_iroda).state);
+        it.printf(temperatureCol, y - celsiusSuperscript, id(font_medium), TextAlign::BASELINE_LEFT, "°C");
+      }
+      if (!isnan(id(humidity_iroda).state)) {
+        it.printf(humidityCol, y, id(font_medium), TextAlign::BASELINE_RIGHT, "%.0f", id(humidity_iroda).state);
         it.printf(humidityCol, y, id(font_small), TextAlign::BASELINE_LEFT, "%%");
       }
       // Bedroom / Háló
@@ -521,7 +556,8 @@ display:
       }
       // Kid 3 / Dani
       y += rowHeight; // 350
-      it.printf(pad, y, id(font_icons_small), TextAlign::BASELINE_LEFT, ICON_baby); 
+      // it.printf(pad, y, id(font_icons_small), TextAlign::BASELINE_LEFT, ICON_baby);
+      it.printf(pad + 28, y, id(font_large), TextAlign::BASELINE_CENTER, "D");
       if (!isnan(id(temp_dani).state)) {
         it.printf(temperatureCol, y, id(font_large), TextAlign::BASELINE_RIGHT, "%.1f", id(temp_dani).state);
         it.printf(temperatureCol, y - celsiusSuperscript, id(font_medium), TextAlign::BASELINE_LEFT, "°C");
@@ -532,7 +568,8 @@ display:
       }
       // Kid 1 / Máté
       y += rowHeight; // 425
-      it.printf(pad, y, id(font_icons_small), TextAlign::BASELINE_LEFT, ICON_human_male); 
+      // it.printf(pad, y, id(font_icons_small), TextAlign::BASELINE_LEFT, ICON_human_male); 
+      it.printf(pad + 28, y, id(font_large), TextAlign::BASELINE_CENTER, "M"); 
       if (!isnan(id(temp_mate).state)) {
         it.printf(temperatureCol, y, id(font_large), TextAlign::BASELINE_RIGHT, "%.1f", id(temp_mate).state);
         it.printf(temperatureCol, y - celsiusSuperscript, id(font_medium), TextAlign::BASELINE_LEFT, "°C");
@@ -543,7 +580,8 @@ display:
       }
       // Kid 2 / Luca
       y += rowHeight; // 500
-      it.printf(pad, y, id(font_icons_small), TextAlign::BASELINE_LEFT, ICON_human_female); 
+      // it.printf(pad, y, id(font_icons_small), TextAlign::BASELINE_LEFT, ICON_human_female);
+      it.printf(pad + 28, y, id(font_large), TextAlign::BASELINE_CENTER, "L");
       if (!isnan(id(temp_luca).state)) {
         it.printf(temperatureCol, y, id(font_large), TextAlign::BASELINE_RIGHT, "%.1f", id(temp_luca).state);
         it.printf(temperatureCol, y - celsiusSuperscript, id(font_medium), TextAlign::BASELINE_LEFT, "°C");
@@ -555,23 +593,27 @@ display:
 
       // === MIDDLE - Locations ===
 
-      it.line(humidityCol + 40, 220, humidityCol + 40, yRes);
+      it.line(humidityCol + 40, 75, humidityCol + 40, yRes);
 
       auto centerCol = (humidityCol + 40 + xCenter - 10) / 2;
-      y = 290;
+      y = 150;
       it.printf(centerCol, y + rowHeight/4, id(font_icons_small), TextAlign::BASELINE_CENTER, ICON_man);
       y += rowHeight; // 350
       auto gaborLocationText = locationToHungarian(id(gabor_location).state, id(gabor_distance).state);
       it.printf(centerCol, y - rowHeight/4, id(font_medium), TextAlign::BASELINE_CENTER, "%s", gaborLocationText.c_str());
+
+      y += rowHeight; // 425
       y += rowHeight; // 425
       it.printf(centerCol, y + rowHeight/4, id(font_icons_small), TextAlign::BASELINE_CENTER, ICON_woman);
       y += rowHeight; // 500
       auto verusLocationText = locationToHungarian(id(verus_location).state, id(verus_distance).state);
       it.printf(centerCol, y - rowHeight/4, id(font_medium), TextAlign::BASELINE_CENTER, "%s", verusLocationText.c_str());
 
-      it.line(xCenter - 10, 220, xCenter - 10, yRes);
+      it.line(xCenter - 10, 75, xCenter - 10, yRes);
 
       // === RIGHT - Forecast ===
+
+      it.line(xCenter - 10, 205, xRes, 205);
 
       // Day of week
       y = 240;
